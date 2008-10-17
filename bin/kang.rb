@@ -4,7 +4,7 @@
 # Copyright
 # Tony Doan <tdoan@tdoan.com>
 # 2008-10-16
-
+require 'rubygems'
 require 'wx'
 include Wx
 
