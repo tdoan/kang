@@ -16,7 +16,7 @@ KANG - The Ruby Regex Debugger
 
 This is a cross-platform GUI application. To run it you'll need Ruby (I've only tested with 1.8.7 so far) and the wxruby gem (I've only tested with 1.9.8).
 
-On an OS X Machintosh with MacPorts availabe:
+On an OS X Macintosh with MacPorts available:
 sudo port install ruby
 sudo port install rb-rubygems
 sudo gem install wxruby
