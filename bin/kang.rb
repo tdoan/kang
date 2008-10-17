@@ -24,12 +24,13 @@ class EventFrame < Wx::Frame
   end
   
   def initialize()
-    ta = Wx::TextAttr.new(Wx::GREEN, Wx::Colour.new(255, 255, 0) )
+    highlight = Wx::TextAttr.new(Wx::GREEN, Wx::Colour.new(255, 255, 0) )
+    normal    = Wx::TextAttr.new(Wx::BLACK, Wx::WHITE) #, Wx::Colour.new(255, 255, 0) )
     
     super(nil, -1, "Event Frame")
     set_client_size(Wx::Size.new(640,480))
     sizer = Wx::BoxSizer.new(Wx::VERTICAL)
-    text  = Wx::TextCtrl.new(self,-1,'Regex in here',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE)
+    text  = Wx::TextCtrl.new(self,-1,'Regex in here',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE|TE_RICH)
     text2 = Wx::TextCtrl.new(self,-1,'Text in here',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE)
     sizer.add(text, 1,Wx::GROW|Wx::ALL,2)
     sizer.add(text2,1,Wx::GROW|Wx::ALL,2)
@@ -45,6 +46,7 @@ class EventFrame < Wx::Frame
       puts
     end
     evt_text(text.get_id) do | event |
+      size = text2.get_value.size
       begin 
         r = Regexp.new(text.get_value)
       rescue
@@ -57,10 +59,19 @@ class EventFrame < Wx::Frame
           e = md.end(0)
           puts b
           puts e
-          puts text2.get_value[b..e-1] 
-          ret = text2.set_style(b,e,ta)
-          puts "Ret: #{ret}"
+          puts text2.get_value[b..e-1]
+          ret=text2.set_style(0,size,normal)
+          text2.append_text("")
+          text2.set_style(b,e,highlight)
+          text2.append_text("")
+          puts ret
+        else
+          ret=text2.set_style(0,size,normal)
+          text2.append_text("")
         end
+      else
+        ret=text2.set_style(0,size,normal)
+        text2.append_text("")
       end
     end
   end
