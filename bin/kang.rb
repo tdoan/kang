@@ -24,10 +24,6 @@ require "wx" # wxruby2
 include Wx 
 
 class EventFrame < Wx::Frame
-  def on_key(event)
-    message("Key pressed", "Key Event: #{event.get_key_code}")
-  end
-  
   def message(text, title)
     m = Wx::MessageDialog.new(self, text, title, Wx::OK | Wx::ICON_INFORMATION)
     m.show_modal()
@@ -47,7 +43,6 @@ class EventFrame < Wx::Frame
     @status = StatusBar.new(self,-1)
     sizer.add(@status,0,Wx::ALIGN_LEFT,2)
     self.set_sizer(sizer)
-    evt_char {|event| on_key(event)}
     evt_text(text.get_id) do | event |
       size = text2.get_value.size
       begin 
