@@ -44,17 +44,10 @@ class EventFrame < Wx::Frame
     text2 = Wx::TextCtrl.new(self,-1,'Text in here',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE)
     sizer.add(text, 1,Wx::GROW|Wx::ALL,2)
     sizer.add(text2,1,Wx::GROW|Wx::ALL,2)
-    button = Wx::Button.new(self,-1,'Click on this')
-    sizer.add(button,0,Wx::ALIGN_CENTER,10)
     @status = StatusBar.new(self,-1)
     sizer.add(@status,0,Wx::ALIGN_LEFT,2)
     self.set_sizer(sizer)
     evt_char {|event| on_key(event)}
-    evt_button(button.get_id) do
-      puts "Top: #{text.get_value}"
-      puts "Bot: #{text2.get_value}"
-      puts
-    end
     evt_text(text.get_id) do | event |
       size = text2.get_value.size
       begin 
