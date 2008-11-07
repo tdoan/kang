@@ -58,19 +58,14 @@ class EventFrame < Wx::Frame
     rescue
     end
     unless r.nil?
-      puts "Valid Regex!"
       md = r.match(@text2.get_value)
       unless md.nil?
         b = md.begin(0)
         e = md.end(0)
-        puts b
-        puts e
-        puts @text2.get_value[b..e-1]
         ret= @text2.set_style(0,size,@normal)
         @text2.append_text("")
         @text2.set_style(b,e,@highlight)
         @text2.append_text("")
-        puts ret
       else
         ret = @text2.set_style(0,size,@normal)
         @text2.append_text("")
