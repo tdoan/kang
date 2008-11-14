@@ -51,7 +51,8 @@ class EventFrame < Wx::Frame
     @status.pushd_status_text(text)
   end
 
-  def text_change(event)   
+  def text_change(event)
+    ip = @text2.get_insertion_point
     size = @text2.get_value.size
     begin 
       r = Regexp.new(@text.get_value)
@@ -74,6 +75,7 @@ class EventFrame < Wx::Frame
       ret = @text2.set_style(0,size,@normal)
       @text2.append_text("")
     end
+    @text2.set_insertion_point(ip)
   end
 end
 
