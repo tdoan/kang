@@ -33,7 +33,7 @@ class EventFrame < Wx::Frame
     @highlight = Wx::TextAttr.new(Wx::GREEN, Wx::Colour.new(255, 255, 0) )
     @normal    = Wx::TextAttr.new(Wx::BLACK, Wx::WHITE) #, Wx::Colour.new(255, 255, 0) )
 
-    super(nil, -1, "Event Frame")
+    super(nil, -1, "Kang")
     set_client_size(Wx::Size.new(640,480))
     sizer = Wx::BoxSizer.new(Wx::VERTICAL)
     @text  = Wx::TextCtrl.new(self,-1,'Regex in here',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE|TE_RICH)
