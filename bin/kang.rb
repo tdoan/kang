@@ -35,20 +35,29 @@ class EventFrame < Wx::Frame
 
     super(nil, -1, "Kang")
     set_client_size(Wx::Size.new(640,480))
-    t1_title = Wx::StaticBox.new(self, -1, "Regex", Wx::DEFAULT_POSITION)#, Wx::Size.new(100-1))
-    t2_title = Wx::StaticBox.new(self, -1, "Text", Wx::DEFAULT_POSITION)#, Wx::Size.new(100,-1))
+    t1_title = Wx::StaticBox.new(self, -1, "Regex", Wx::DEFAULT_POSITION)
+    t2_title = Wx::StaticBox.new(self, -1, "Text", Wx::DEFAULT_POSITION)
+    ls_title = Wx::StaticBox.new(self, -1, "Groups", Wx::DEFAULT_POSITION)
+    grid = Wx::GridSizer.new(2,10,10)
     sizer = Wx::BoxSizer.new(Wx::VERTICAL)
+    supersizer = Wx::BoxSizer.new(Wx::VERTICAL)
     @text  = Wx::TextCtrl.new(self,-1,'Regex in here',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE|TE_RICH)
     @text2 = Wx::TextCtrl.new(self,-1,'Text in here',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE)
+    @list = Wx::ListCtrl.new(self,-1,Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE)
     t1sizer = Wx::StaticBoxSizer.new(t1_title,Wx::VERTICAL)
     t2sizer = Wx::StaticBoxSizer.new(t2_title,Wx::VERTICAL)
+    lssizer = Wx::StaticBoxSizer.new(ls_title,Wx::VERTICAL)
     t1sizer.add(@text, 1,Wx::EXPAND|Wx::ALL,2)
     t2sizer.add(@text2,1,Wx::EXPAND|Wx::ALL,2)
+    lssizer.add(@list,1,Wx::EXPAND|Wx::ALL,2)
     sizer.add(t1sizer,1,Wx::EXPAND,2)
     sizer.add(t2sizer,1,Wx::EXPAND,2)
     @status = StatusBar.new(self,-1)
-    sizer.add(@status,0,Wx::ALIGN_LEFT,2)
-    self.set_sizer(sizer)
+    grid.add(sizer,1,Wx::EXPAND)
+    grid.add(lssizer,1,Wx::EXPAND)
+    supersizer.add(grid,1,Wx::EXPAND)
+    supersizer.add(@status)
+    self.set_sizer(supersizer)
     evt_text(@text.get_id){|event| text_change(event)}
     evt_text(@text2.get_id){|event| text_change(event)}
   end
@@ -75,9 +84,12 @@ class EventFrame < Wx::Frame
         @text2.append_text("")
         @text2.set_style(b,e,@highlight)
         @text2.append_text("")
+        @list.clear_all
+        md.to_a[1..-1].each_with_index{|s,i| @list.insert_item(i+1,"#{i+1}: #{s}")}
       else
         ret = @text2.set_style(0,size,@normal)
         @text2.append_text("")
+        @list.clear_all
       end
     else
       ret = @text2.set_style(0,size,@normal)
