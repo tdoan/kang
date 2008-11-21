@@ -48,7 +48,7 @@ class EventFrame < Wx::Frame
   end
 
   def set_status(text)
-    @status.pushd_status_text(text)
+    @status.set_status_text(text)
   end
 
   def text_change(event)
@@ -56,7 +56,9 @@ class EventFrame < Wx::Frame
     size = @text2.get_value.size
     begin 
       r = Regexp.new(@text.get_value)
+      set_status("")
     rescue
+      set_status("Invalid Regex")
     end
     unless r.nil?
       md = r.match(@text2.get_value)
