@@ -41,9 +41,13 @@ class EventFrame < Wx::Frame
     grid = Wx::GridSizer.new(2,10,10)
     sizer = Wx::BoxSizer.new(Wx::VERTICAL)
     supersizer = Wx::BoxSizer.new(Wx::VERTICAL)
-    @text  = Wx::TextCtrl.new(self,-1,'Regex in here',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE|TE_RICH)
+    @text  = Wx::TextCtrl.new(self,-1,'(Regex)? (in) (here)',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE|TE_RICH)
     @text2 = Wx::TextCtrl.new(self,-1,'Text in here',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE)
-    @list = Wx::ListCtrl.new(self,-1,Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE)
+    @list = Wx::ListCtrl.new(self,-1,Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::LC_REPORT)
+    @list.insert_column(0,"Group Num",Wx::LIST_FORMAT_RIGHT, -1)
+    @list.set_column_width(0,85)
+    @list.insert_column(1,"Match Data",Wx::LIST_FORMAT_LEFT, -1)
+    @list.set_column_width(1,180)
     t1sizer = Wx::StaticBoxSizer.new(t1_title,Wx::VERTICAL)
     t2sizer = Wx::StaticBoxSizer.new(t2_title,Wx::VERTICAL)
     lssizer = Wx::StaticBoxSizer.new(ls_title,Wx::VERTICAL)
@@ -60,6 +64,7 @@ class EventFrame < Wx::Frame
     self.set_sizer(supersizer)
     evt_text(@text.get_id){|event| text_change(event)}
     evt_text(@text2.get_id){|event| text_change(event)}
+    text_change(nil)
   end
 
   def set_status(text)
@@ -74,6 +79,7 @@ class EventFrame < Wx::Frame
       set_status("")
     rescue
       set_status("Invalid Regex")
+      @list.delete_all_items
     end
     unless r.nil?
       md = r.match(@text2.get_value)
@@ -84,12 +90,15 @@ class EventFrame < Wx::Frame
         @text2.append_text("")
         @text2.set_style(b,e,@highlight)
         @text2.append_text("")
-        @list.clear_all
-        md.to_a[1..-1].each_with_index{|s,i| @list.insert_item(i+1,"#{i+1}: #{s}")}
+        @list.delete_all_items
+        md.to_a[1..-1].each_with_index do |s,i|
+          @list.insert_item(i,"#{i+1}")
+          @list.set_item(i,1,s) unless s.nil?
+        end
       else
         ret = @text2.set_style(0,size,@normal)
         @text2.append_text("")
-        @list.clear_all
+        @list.delete_all_items
       end
     else
       ret = @text2.set_style(0,size,@normal)
