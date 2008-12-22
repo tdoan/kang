@@ -34,34 +34,46 @@ class EventFrame < Wx::Frame
     @normal    = Wx::TextAttr.new(Wx::BLACK, Wx::WHITE) #, Wx::Colour.new(255, 255, 0) )
 
     super(nil, -1, "Kang")
-    set_client_size(Wx::Size.new(640,480))
-    t1_title = Wx::StaticBox.new(self, -1, "Regex", Wx::DEFAULT_POSITION)
-    t2_title = Wx::StaticBox.new(self, -1, "Text", Wx::DEFAULT_POSITION)
-    ls_title = Wx::StaticBox.new(self, -1, "Groups", Wx::DEFAULT_POSITION)
-    grid = Wx::GridSizer.new(2,10,10)
-    sizer = Wx::BoxSizer.new(Wx::VERTICAL)
-    supersizer = Wx::BoxSizer.new(Wx::VERTICAL)
-    @text  = Wx::TextCtrl.new(self,-1,'(Regex)? (in) (here)',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE|TE_RICH)
-    @text2 = Wx::TextCtrl.new(self,-1,'Text in here',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE)
-    @list = Wx::ListCtrl.new(self,-1,Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::LC_REPORT)
+    #set_client_size(Wx::Size.new(640,480))
+    #sizer = Wx::BoxSizer.new(Wx::VERTICAL)
+    #supersizer = Wx::BoxSizer.new(Wx::VERTICAL)
+    #panel = Wx::Panel.new(self)
+    
+    @topwin1 =  Wx::SashLayoutWindow.new( self, :size => [400, 400], :style => Wx::NO_BORDER|Wx::SW_3D )
+    @topwin1.default_size = [600, 600]
+    @topwin1.orientation  = Wx::LAYOUT_HORIZONTAL
+    @topwin1.alignment    = Wx::LAYOUT_TOP
+    @topwin1.background_colour = Wx::BLUE
+    @topwin1.set_sash_visible(Wx::SASH_RIGHT, true)
+    @topwin1.extra_border_size = 10
+    @text  = Wx::TextCtrl.new(@topwin1,-1,'(Regex)? (in) (here)',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE|TE_RICH)
+
+    @bottomwin1 =  Wx::SashLayoutWindow.new( self, :size => [200, 30], :style => Wx::NO_BORDER|Wx::SW_3D )
+    @bottomwin1.default_size = [600, 400]
+    @bottomwin1.orientation  = Wx::LAYOUT_HORIZONTAL
+    @bottomwin1.alignment    = Wx::LAYOUT_BOTTOM
+    @bottomwin1.background_colour = Wx::RED
+    @bottomwin1.set_sash_visible(Wx::SASH_LEFT, true)
+    @bottomwin1.extra_border_size = 10
+    @text2 = Wx::TextCtrl.new(@bottomwin1,-1,'Text in here',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE)
+    
+    @rightwin1 =  Wx::SashLayoutWindow.new( self, :size => [200, 30], :style => Wx::NO_BORDER|Wx::SW_3D )
+    @rightwin1.default_size = [400, 400]
+    @rightwin1.orientation  = Wx::LAYOUT_VERTICAL
+    @rightwin1.alignment    = Wx::LAYOUT_RIGHT
+    @rightwin1.background_colour = Wx::GREEN
+    @rightwin1.set_sash_visible(Wx::SASH_LEFT, true)
+    @rightwin1.extra_border_size = 10
+    
+    @list = Wx::ListCtrl.new(@rightwin1,-1,Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::LC_REPORT)
     @list.insert_column(0,"Group Num",Wx::LIST_FORMAT_RIGHT, -1)
     @list.set_column_width(0,85)
     @list.insert_column(1,"Match Data",Wx::LIST_FORMAT_LEFT, -1)
     @list.set_column_width(1,180)
-    t1sizer = Wx::StaticBoxSizer.new(t1_title,Wx::VERTICAL)
-    t2sizer = Wx::StaticBoxSizer.new(t2_title,Wx::VERTICAL)
-    lssizer = Wx::StaticBoxSizer.new(ls_title,Wx::VERTICAL)
-    t1sizer.add(@text, 1,Wx::EXPAND|Wx::ALL,2)
-    t2sizer.add(@text2,1,Wx::EXPAND|Wx::ALL,2)
-    lssizer.add(@list,1,Wx::EXPAND|Wx::ALL,2)
-    sizer.add(t1sizer,1,Wx::EXPAND,2)
-    sizer.add(t2sizer,1,Wx::EXPAND,2)
     @status = StatusBar.new(self,-1)
-    grid.add(sizer,1,Wx::EXPAND)
-    grid.add(lssizer,1,Wx::EXPAND)
-    supersizer.add(grid,1,Wx::EXPAND)
-    supersizer.add(@status)
-    self.set_sizer(supersizer)
+    #supersizer.add(panel,1,Wx::EXPAND)
+    #supersizer.add(@status)
+    #self.set_sizer(supersizer)
     evt_text(@text.get_id){|event| text_change(event)}
     evt_text(@text2.get_id){|event| text_change(event)}
     text_change(nil)
