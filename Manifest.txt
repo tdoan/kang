@@ -1,0 +1,9 @@
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+bin/kang
+lib/kang.rb
+lib/kang/cli.rb
+test/test_helper.rb
+test/test_kang.rb
