@@ -4,7 +4,7 @@
 # kang.rb - Main executable for GUI interface
 #
 # ====================================================================
-# Copyright (c) 2008 Tony Doan <tdoan@tdoan.com>.  All rights reserved.
+# Copyright (c) 2011 Tony Doan <tdoan@tdoan.com>.  All rights reserved.
 #
 # This software is licensed as described in the file COPYING, which
 # you should have received as part of this distribution.  The terms
@@ -14,102 +14,207 @@
 # ====================================================================
 #
 $:.unshift(File.dirname(__FILE__)) unless
-  $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
+$:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
-require 'wx'
-include Wx
+begin
+  require 'gtk2'
+rescue LoadError => ex
+  $stderr.puts("This is a GUI application that requires the gtk2 gem be installed, which in turn requires that GTK2 be installed.")
+  exit(-1)
+end
 
 module Kang
-  VERSION = '0.0.1'
-class EventFrame < Wx::Frame
-  def message(text, title)
-    m = Wx::MessageDialog.new(self, text, title, Wx::OK | Wx::ICON_INFORMATION)
-    m.show_modal()
-  end
-
-  def initialize()
-    @highlight = Wx::TextAttr.new(Wx::GREEN, Wx::Colour.new(255, 255, 0) )
-    @normal    = Wx::TextAttr.new(Wx::BLACK, Wx::WHITE) #, Wx::Colour.new(255, 255, 0) )
-
-    super(nil, -1, "Kang")
-    set_client_size(Wx::Size.new(640,480))
-    t1_title = Wx::StaticBox.new(self, -1, "Regex", Wx::DEFAULT_POSITION)
-    t2_title = Wx::StaticBox.new(self, -1, "Text", Wx::DEFAULT_POSITION)
-    ls_title = Wx::StaticBox.new(self, -1, "Groups", Wx::DEFAULT_POSITION)
-    grid = Wx::GridSizer.new(2,10,10)
-    sizer = Wx::BoxSizer.new(Wx::VERTICAL)
-    supersizer = Wx::BoxSizer.new(Wx::VERTICAL)
-    @text  = Wx::TextCtrl.new(self,-1,'(Regex)? (in) (here)',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE|TE_RICH)
-    @text2 = Wx::TextCtrl.new(self,-1,'Text in here',Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::TE_MULTILINE)
-    @list = Wx::ListCtrl.new(self,-1,Wx::DEFAULT_POSITION,Wx::DEFAULT_SIZE,Wx::LC_REPORT)
-    @list.insert_column(0,"Group Num",Wx::LIST_FORMAT_RIGHT, -1)
-    @list.set_column_width(0,85)
-    @list.insert_column(1,"Match Data",Wx::LIST_FORMAT_LEFT, -1)
-    @list.set_column_width(1,180)
-    t1sizer = Wx::StaticBoxSizer.new(t1_title,Wx::VERTICAL)
-    t2sizer = Wx::StaticBoxSizer.new(t2_title,Wx::VERTICAL)
-    lssizer = Wx::StaticBoxSizer.new(ls_title,Wx::VERTICAL)
-    t1sizer.add(@text, 1,Wx::EXPAND|Wx::ALL,2)
-    t2sizer.add(@text2,1,Wx::EXPAND|Wx::ALL,2)
-    lssizer.add(@list,1,Wx::EXPAND|Wx::ALL,2)
-    sizer.add(t1sizer,1,Wx::EXPAND,2)
-    sizer.add(t2sizer,1,Wx::EXPAND,2)
-    @status = StatusBar.new(self,-1)
-    grid.add(sizer,1,Wx::EXPAND)
-    grid.add(lssizer,1,Wx::EXPAND)
-    supersizer.add(grid,1,Wx::EXPAND)
-    supersizer.add(@status)
-    self.set_sizer(supersizer)
-    evt_text(@text.get_id){|event| text_change(event)}
-    evt_text(@text2.get_id){|event| text_change(event)}
-    text_change(nil)
-  end
-
-  def set_status(text)
-    @status.set_status_text(text)
-  end
-
-  def text_change(event)
-    ip = @text2.get_insertion_point
-    size = @text2.get_value.size
-    begin 
-      r = Regexp.new(@text.get_value)
-      set_status("")
-    rescue
-      set_status("Invalid Regex")
-      @list.delete_all_items
+  class Data
+    def initialize
+      @re = nil
+      @match = nil
     end
-    unless r.nil?
-      md = r.match(@text2.get_value)
-      unless md.nil?
-        b = md.begin(0)
-        e = md.end(0)
-        ret= @text2.set_style(0,size,@normal)
-        @text2.append_text("")
-        @text2.set_style(b,e,@highlight)
-        @text2.append_text("")
-        @list.delete_all_items
-        md.to_a[1..-1].each_with_index do |s,i|
-          @list.insert_item(i,"#{i+1}")
-          @list.set_item(i,1,s) unless s.nil?
-        end
+
+    def update_match_string(match_string)
+      @match_string = match_string
+      update_match
+    end
+
+    def update_match
+      if @re
+        @match = @re.match(@match_string)
       else
-        ret = @text2.set_style(0,size,@normal)
-        @text2.append_text("")
-        @list.delete_all_items
+        @match = nil
       end
-    else
-      ret = @text2.set_style(0,size,@normal)
-      @text2.append_text("")
     end
-    @text2.set_insertion_point(ip)
-  end
-end
 
-class Kang < App
+    def match_group_count
+      if @match
+        @match.to_a.size-1
+      else
+        nil
+      end
+    end
 
-  def on_init
-    EventFrame.new.show
+    def update_regexp(re_string)
+      begin
+        @re = Regexp.new(re_string)
+      rescue RegexpError
+        @re = nil
+      end
+      update_match
+    end
+
+    def regexp_valid?
+      @re.nil? ? false : true
+    end
+
+    def match?
+      @match ? true : false
+    end
+
+    def match_begin
+      if @match
+        @match.begin(0)
+      else
+        nil
+      end
+    end
+
+    def match_end
+      if @match
+        @match.end(0)
+      else
+        nil
+      end
+    end
+
+    def matches
+      if @match and (@match.length > 1)
+        @match[1..-1]
+      else
+        []
+      end
+    end
   end
-end
+
+  class Controller
+    def initialize
+      @view = View.new(self)
+      @data = Data.new
+      @view.start
+    end
+
+    def key_up_match(view,event,match_string)
+      @view.update_status("")
+      @data.update_match_string(match_string)
+      key_up
+    end
+
+    def key_up_reg(view,event,text)
+      @view.update_status("")
+      @data.update_regexp(text)
+      key_up
+    end
+
+    private
+    def key_up
+      unless @data.regexp_valid?
+        @view.remove_tag
+        @view.update_status("Invalid Regexp")
+      else
+        count = @data.match_group_count ? @data.match_group_count : "no"
+        @view.update_status("Matched with #{@data.match_group_count} grouping(s)")
+        if @data.match?
+          @view.update_tag(@data.match_begin,@data.match_end)
+        else
+          @view.remove_tag
+          @view.update_status("no match")
+        end
+      end
+      @view.update_match_groups(@data.matches)
+    end
+  end
+
+  class View
+    def initialize(controller)
+      @controller = controller
+      @window = Gtk::Window.new(Gtk::Window::TOPLEVEL)
+      @window.set_title  "Kang"
+      @window.border_width = 10
+      @window.set_size_request(600, 400)
+      @window.signal_connect('delete_event') { Gtk.main_quit }
+
+      wintop = Gtk::ScrolledWindow.new
+      wintop.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_ALWAYS)
+
+      winbottom = Gtk::ScrolledWindow.new
+      winbottom.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_ALWAYS)
+
+      @statusbar = Gtk::Statusbar.new
+      @statusbar.push(0,"")
+
+      @regview = Gtk::TextView.new
+      @regview.buffer.text = "RegExp here"
+
+      @matchview = Gtk::TextView.new
+      @matchview.buffer.text = "Match Text Here"
+
+      @matchview.buffer.create_tag("colors",{ "foreground" => "green", "background" => "#000000" })
+
+      wintop.add(@regview)
+      winbottom.add(@matchview)
+
+      @list_store = Gtk::ListStore.new(Integer, String)
+      treeview = Gtk::TreeView.new(@list_store)
+      column0 = Gtk::TreeViewColumn.new("#",Gtk::CellRendererText.new, {:text => 0})
+      column1 = Gtk::TreeViewColumn.new("Match",Gtk::CellRendererText.new, {:text => 1})
+      treeview.append_column(column0)
+      treeview.append_column(column1)
+      treeview.selection.mode = Gtk::SELECTION_NONE
+
+      vpaned = Gtk::VPaned.new
+      vpaned.add1(wintop)
+      vpaned.add2(winbottom)
+      vpaned.set_size_request(400,400)
+      hpaned = Gtk::HPaned.new
+      hpaned.add1(vpaned)
+      hpaned.add2(treeview)
+      vbox = Gtk::VBox.new(false,0)
+      vbox.pack_start(hpaned,true,true,0)
+      vbox.pack_start(@statusbar,false,false,0)
+      @window.add(vbox)
+
+      @regview.signal_connect("key-release-event") {|view,event| @controller.key_up_reg(view,event,view.buffer.text)}
+      @matchview.signal_connect("key-release-event") {|view,event| @controller.key_up_match(view,event,view.buffer.text)}
+    end
+
+    def start
+      @window.show_all
+      begin
+        Gtk.main
+      rescue SystemExit, Interrupt
+        exit(0)
+      end
+    end
+
+    def update_tag(tag_begin,tag_end)
+      remove_tag
+      b = @matchview.buffer.get_iter_at_offset(tag_begin)
+      e = @matchview.buffer.get_iter_at_offset(tag_end)
+      @matchview.buffer.apply_tag("colors",b,e)
+    end
+
+    def update_status(message)
+      @statusbar.pop(0)
+      @statusbar.push(0,message)
+    end
+
+    def update_match_groups(groups)
+      @list_store.clear
+      groups.each_with_index{|item,i| iter = @list_store.append; iter[0]=i;iter[1]=item}
+    end
+
+    def remove_tag
+      buffer = @matchview.buffer
+      bstart = buffer.get_iter_at_offset(0)
+      bend = buffer.get_iter_at_offset(buffer.text.size)
+      @matchview.buffer.remove_tag("colors",bstart,bend)
+    end
+  end
 end

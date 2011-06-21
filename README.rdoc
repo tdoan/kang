@@ -8,26 +8,29 @@
 
 == FEATURES/PROBLEMS:
 
-* This is a cross-platform GUI application. To run it you'll need Ruby (I've only tested with 1.8.7 so far) and the wxruby gem (I've only tested with 1.9.8).
+* This is a cross-platform GUI application. To run it you'll need Ruby (1.8.7 and 1.9.2 have been tested) and the gtk2 gem (0.90.9).
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+  gem install kang
+  kang
 
 == REQUIREMENTS:
 
 * ruby
 * rubygems
-* wxruby
+* gtk2 gem
+* gtk2 libraries
 
 == INSTALL:
 
-* sudo gem install kang
+* First you need gtk2. If you are on Linux you probably already have it, if not use apt,rpm,yum etc. If you are on the Mac you can use either macports (sudo port install gtk2), or homebrew (brew install gtk2) to install the necessary libraries.
+* gem install kang (this should install the gtk2 gem and it's dependencies as well)
 
 == LICENSE:
 
 ====================================================================
-Copyright (c) 2008 Tony Doan <tdoan@tdoan.com>.  All rights reserved.
+Copyright (c) 2011 Tony Doan <tdoan@tdoan.com>.  All rights reserved.
 This software is licensed as described in the file COPYING, which
 you should have received as part of this distribution.  The terms
 are also available at http://github.com/tdoan/kang/tree/master/COPYING.

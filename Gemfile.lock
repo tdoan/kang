@@ -1,0 +1,31 @@
+PATH
+  remote: .
+  specs:
+    kang (0.0.2)
+      gtk2
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    atk (0.90.9)
+      glib2 (>= 0.90.9)
+    cairo (1.10.0)
+      pkg-config
+    gdk_pixbuf2 (0.90.9)
+      glib2 (>= 0.90.9)
+    glib2 (0.90.9)
+      pkg-config
+    gtk2 (0.90.9)
+      atk (>= 0.90.9)
+      gdk_pixbuf2 (>= 0.90.9)
+      pango (>= 0.90.9)
+    pango (0.90.9)
+      cairo (>= 1.10.0)
+      glib2 (>= 0.90.9)
+    pkg-config (1.1.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  kang!
