@@ -1,6 +1,6 @@
 = kang
 
-* http://kang.rubyforge.org/
+* http://github.com/tdoan/kang/
 
 == DESCRIPTION:
 
