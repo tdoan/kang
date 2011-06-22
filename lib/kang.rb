@@ -45,7 +45,7 @@ module Kang
 
     def match_group_count
       if @match
-        @match.to_a.size-1
+        @match.length
       else
         nil
       end
@@ -86,7 +86,7 @@ module Kang
 
     def matches
       if @match and (@match.length > 1)
-        @match[1..-1]
+        @match.to_a
       else
         []
       end
@@ -119,7 +119,9 @@ module Kang
         @view.update_status("Invalid Regexp")
       else
         count = @data.match_group_count ? @data.match_group_count : "no"
-        @view.update_status("Matched with #{@data.match_group_count} grouping(s)")
+        message = "Matched with #{@data.match_group_count} grouping"
+        message += "s" if @data.match_group_count and @data.match_group_count > 1
+        @view.update_status(message)
         if @data.match?
           @view.update_tag(@data.match_begin,@data.match_end)
         else
