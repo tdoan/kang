@@ -25,9 +25,9 @@ end
 
 module Kang
   class Data
-    def initialize
-      @re = nil
-      @match = nil
+    def initialize(reg_text="",match_text="")
+      update_regexp(reg_text)
+      update_match_string(match_text)
     end
 
     def update_match_string(match_string)
@@ -95,8 +95,10 @@ module Kang
 
   class Controller
     def initialize
-      @view = View.new(self)
-      @data = Data.new
+      reg_text = "RegExp here"
+      match_text = "Match Text Here"
+      @view = View.new(self,reg_text,match_text)
+      @data = Data.new(reg_text,match_text)
       @view.start
     end
 
@@ -134,7 +136,7 @@ module Kang
   end
 
   class View
-    def initialize(controller)
+    def initialize(controller,reg_text="",match_text="")
       @controller = controller
       @window = Gtk::Window.new(Gtk::Window::TOPLEVEL)
       @window.set_title  "Kang"
@@ -152,10 +154,10 @@ module Kang
       @statusbar.push(0,"")
 
       @regview = Gtk::TextView.new
-      @regview.buffer.text = "RegExp here"
+      @regview.buffer.text = reg_text
 
       @matchview = Gtk::TextView.new
-      @matchview.buffer.text = "Match Text Here"
+      @matchview.buffer.text = match_text
 
       @matchview.buffer.create_tag("colors",{ "foreground" => "green", "background" => "gray" })
 
