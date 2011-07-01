@@ -157,7 +157,7 @@ module Kang
       @matchview = Gtk::TextView.new
       @matchview.buffer.text = "Match Text Here"
 
-      @matchview.buffer.create_tag("colors",{ "foreground" => "green", "background" => "#000000" })
+      @matchview.buffer.create_tag("colors",{ "foreground" => "green", "background" => "gray" })
 
       wintop.add(@regview)
       winbottom.add(@matchview)
