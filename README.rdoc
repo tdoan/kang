@@ -24,7 +24,15 @@
 
 == INSTALL:
 
-* First you need gtk2. If you are on Linux you probably already have it, if not use apt,rpm,yum etc. If you are on the Mac you can use either macports (sudo port install gtk2), or homebrew (brew install gtk2) to install the necessary libraries.
+* First you need gtk2. If you are on Linux you probably already have it, if not use apt,rpm,yum etc.
+  More than likely you'll have the libraries you need but not the -dev packages with the header files. Here are the -dev packages that I had to add on Ubuntu 11:
+
+ libglib2.0-dev
+ libatk1.0-dev
+ libcairo2-dev
+ libpango1.0-dev
+ libgdk-pixbuf2.0-dev
+
 * gem install kang (this should install the gtk2 gem and it's dependencies as well)
 
 == LICENSE:
