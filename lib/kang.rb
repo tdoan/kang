@@ -86,7 +86,12 @@ module Kang
 
     def matches
       if @match and (@match.length > 1)
-        @match.to_a
+        if @match.names and @match.names.size>0
+          names = @match.names.unshift("0")
+        else
+          names = Range.new(0,@match.length-1).to_a.collect{|o| o.to_s}
+        end
+        return names.zip(@match.to_a)
       else
         []
       end
@@ -164,9 +169,9 @@ module Kang
       wintop.add(@regview)
       winbottom.add(@matchview)
 
-      @list_store = Gtk::ListStore.new(Integer, String)
+      @list_store = Gtk::ListStore.new(String, String)
       treeview = Gtk::TreeView.new(@list_store)
-      column0 = Gtk::TreeViewColumn.new("#",Gtk::CellRendererText.new, {:text => 0})
+      column0 = Gtk::TreeViewColumn.new("Match",Gtk::CellRendererText.new, {:text => 0})
       column1 = Gtk::TreeViewColumn.new("Match",Gtk::CellRendererText.new, {:text => 1})
       treeview.append_column(column0)
       treeview.append_column(column1)
@@ -209,9 +214,9 @@ module Kang
       @statusbar.push(0,message)
     end
 
-    def update_match_groups(groups)
+    def update_match_groups(matches)
       @list_store.clear
-      groups.each_with_index{|item,i| iter = @list_store.append; iter[0]=i;iter[1]=item}
+      matches.each{|m| iter = @list_store.append; iter[0]=m[0];iter[1]=m[1]}
     end
 
     def remove_tag
