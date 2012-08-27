@@ -3,8 +3,6 @@
 #  Created on 2009-1-7.
 #  Copyright (c) 2011. All rights reserved.
 
-require 'rubygems'
 require File.expand_path(File.dirname(__FILE__) + "/../lib/kang")
-require "kang/cli"
-
+require 'kang/cli'
 Kang::CLI.execute(STDOUT, ARGV)

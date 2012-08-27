@@ -9,7 +9,7 @@ spec = Gem::Specification.new do |spec|
   spec.homepage = 'http://github.com/tdoan/kang'
   spec.summary = 'A visual regex debugger'
   spec.description = %{The Ruby Regex Debugger. Put your regex in the top pane, and your match text in the bottom pane. Kang will highlight the match text that matches and show you any match groups you have created down the right hand side.}
-  spec.files = Dir['bin/*.rb','lib/*.rb','lib/kang/*.rb']
+  spec.files = Dir['bin/*.rb','lib/*.rb','lib/kang/*.rb','COPYING','History.txt']
   spec.executables = ['kang']
   spec.add_dependency('gtk2')
   spec.has_rdoc = false
