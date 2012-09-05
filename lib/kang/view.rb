@@ -88,11 +88,13 @@ module Kang
     private
     def update_tag
       remove_tag
-      tag_begin = @data.match_begin
-      tag_end   = @data.match_end
-      b = @matchview.buffer.get_iter_at_offset(tag_begin)
-      e = @matchview.buffer.get_iter_at_offset(tag_end)
-      @matchview.buffer.apply_tag("colors",b,e)
+      if @data.regex_valid?
+        tag_begin = @data.match_begin
+        tag_end   = @data.match_end
+        b = @matchview.buffer.get_iter_at_offset(tag_begin)
+        e = @matchview.buffer.get_iter_at_offset(tag_end)
+        @matchview.buffer.apply_tag("colors",b,e)
+      end
     end
 
     def update_status
@@ -116,7 +118,9 @@ module Kang
 
     def update_match_groups
       @list_store.clear
-      @data.matches.each{|m| iter = @list_store.append; iter[0]=m[0];iter[1]=m[1]}
+      if @data.regex_valid?
+        @data.matches.each{|m| iter = @list_store.append; iter[0]=m[0];iter[1]=m[1]}
+      end
     end
 
     def remove_tag
