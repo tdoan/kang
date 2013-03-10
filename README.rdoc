@@ -8,7 +8,7 @@
 
 == FEATURES/PROBLEMS:
 
-* This is a cross-platform GUI application. To run it you'll need Ruby (1.8.7 and 1.9.2 have been tested) and the gtk2 gem (0.90.9).
+* This is a cross-platform GUI application. To run it you'll need Ruby (1.8.7, 1.9.2, and 1.9.3 have been tested) and the gtk2 gem (up through 1.2.1). Ruby 2.0 support is coming.
 
 == SYNOPSIS:
 
