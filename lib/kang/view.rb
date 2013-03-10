@@ -46,7 +46,9 @@ module Kang
       @matchview.buffer.create_tag("colors",{ "foreground" => "green", "background" => "gray" })
 
       wintop.add(@regview)
+      wintop.set_size_request(400,100)
       winbottom.add(@matchview)
+      winbottom.set_size_request(400,200)
 
       @list_store = Gtk::ListStore.new(String, String)
       treeview = Gtk::TreeView.new(@list_store)
