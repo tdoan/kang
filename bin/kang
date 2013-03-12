@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 #  Created on 2009-1-7.
-#  Copyright (c) 2012. All rights reserved.
+#  Copyright (c) 2013. All rights reserved.
 
 require File.expand_path(File.dirname(__FILE__) + "/../lib/kang")
 require 'kang/cli'
