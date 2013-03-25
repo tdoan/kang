@@ -42,8 +42,7 @@ module Kang
 
       @matchview = Gtk::TextView.new
       @matchview.buffer.text = match_text
-
-      @matchview.buffer.create_tag("colors",{ "foreground" => "green", "background" => "gray" })
+      @tags = Tags.new(@matchview)
 
       wintop.add(@regview)
       wintop.set_size_request(400,100)
@@ -52,8 +51,12 @@ module Kang
 
       @list_store = Gtk::ListStore.new(String, String)
       treeview = Gtk::TreeView.new(@list_store)
-      column0 = Gtk::TreeViewColumn.new("Match",Gtk::CellRendererText.new, {:text => 0})
-      column1 = Gtk::TreeViewColumn.new("Match",Gtk::CellRendererText.new, {:text => 1})
+      renderer = Gtk::CellRendererText.new
+      column0 = Gtk::TreeViewColumn.new("#",renderer, {:text => 0})
+      column1 = Gtk::TreeViewColumn.new("Match",renderer, {:text => 1})
+      column1.set_cell_data_func(renderer) do |tvc,cell,model,iter|
+        cell.background_gdk = @tags[iter.path.to_str.to_i].background_gdk
+      end
       treeview.append_column(column0)
       treeview.append_column(column1)
       treeview.selection.mode = Gtk::SELECTION_NONE
@@ -104,12 +107,22 @@ module Kang
     private
     def update_tag
       remove_tag
-      if @data.regex_valid?
-        tag_begin = @data.match_begin
-        tag_end   = @data.match_end
+      if @data.match_group_count
+        @data.match_group_count.times do |i|
+          paint_tag(i)
+        end
+      else
+        paint_tag
+      end
+    end
+
+    def paint_tag(group=0)
+      if @data.regex_valid? and @data.match? and @data.match_begin(group)
+        tag_begin = @data.match_begin(group)
+        tag_end   = @data.match_end(group)
         b = @matchview.buffer.get_iter_at_offset(tag_begin)
         e = @matchview.buffer.get_iter_at_offset(tag_end)
-        @matchview.buffer.apply_tag("colors",b,e)
+        @matchview.buffer.apply_tag(@tags[group],b,e)
       end
     end
 
@@ -143,7 +156,7 @@ module Kang
       buffer = @matchview.buffer
       bstart = buffer.get_iter_at_offset(0)
       bend = buffer.get_iter_at_offset(buffer.text.size)
-      @matchview.buffer.remove_tag("colors",bstart,bend)
+      @matchview.buffer.remove_all_tags(bstart,bend)
     end
 
     def update_spin_count

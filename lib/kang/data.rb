@@ -86,17 +86,17 @@ module Kang
       @match ? true : false
     end
 
-    def match_begin
+    def match_begin(group=0)
       if @match
-        @match.begin(0)
+        @match.begin(group)
       else
         nil
       end
     end
 
-    def match_end
+    def match_end(group=0)
       if @match
-        @match.end(0)
+        @match.end(group)
       else
         nil
       end

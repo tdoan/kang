@@ -18,6 +18,8 @@ $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname
 require "kang/controller"
 require "kang/view"
 require "kang/data"
+require "kang/colors"
+require "kang/tags"
 require "rubygems"
 begin
   require 'gtk2'
