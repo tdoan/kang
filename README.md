@@ -8,7 +8,7 @@
 
 == FEATURES/PROBLEMS:
 
-* This is a cross-platform GUI application. To run it you'll need Ruby (1.8.7, 1.9.2, and 1.9.3 have been tested) and the gtk2 gem (up through 1.2.1). Ruby 2.0 support is coming.
+* This is a cross-platform GUI application. To run it you'll need Ruby (1.8.7, 1.9.2, 1.9.3, and 2.0.0 have been tested) and the gtk2 gem (tested through 1.2.2). Ruby 2.0 requires gtk >= 1.2.2.
 
 == SYNOPSIS:
 
@@ -25,7 +25,7 @@
 == INSTALL:
 
 * First you need gtk2. If you are on Linux you probably already have it, if not use apt,rpm,yum etc.
-  More than likely you'll have the libraries you need but not the -dev packages with the header files. Here are the -dev packages that I had to add on Ubuntu 11:
+  More than likely you'll have the libraries you need but not the -dev packages with the header files. Here are the -dev packages that I had to add on Ubuntu 11/12:
 
  libglib2.0-dev
  libatk1.0-dev
@@ -33,7 +33,7 @@
  libpango1.0-dev
  libgdk-pixbuf2.0-dev
 
-* gem install kang (this should install the gtk2 gem and it's dependencies as well)
+* gem install kang (this should install the gtk2 gem and it's dependencies)
 
 == LICENSE:
 
