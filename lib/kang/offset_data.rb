@@ -20,11 +20,19 @@ module Kang
     end
 
     def begin(i)
-      @match_data.begin(i) + @offset
+      if @match_data.begin(i) 
+        @match_data.begin(i) + @offset
+      else
+        @offset
+      end
     end
 
     def end(i)
-      @match_data.end(i) + @offset
+      if @match_data.end(i) 
+        @match_data.end(i) + @offset
+      else
+        @offset
+      end
     end
 
     def length
