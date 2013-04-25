@@ -1,3 +1,0 @@
-Checksum
-Page has one Checkssum
-Document has many pages
