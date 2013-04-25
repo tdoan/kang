@@ -12,21 +12,21 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    atk (1.2.5)
-      glib2 (>= 1.2.5)
+    atk (1.2.6)
+      glib2 (>= 1.2.6)
     cairo (1.12.4)
       pkg-config
-    gdk_pixbuf2 (1.2.5)
-      glib2 (>= 1.2.5)
-    glib2 (1.2.5)
+    gdk_pixbuf2 (1.2.6)
+      glib2 (>= 1.2.6)
+    glib2 (1.2.6)
       pkg-config
-    gtk2 (1.2.5)
-      atk (>= 1.2.5)
-      gdk_pixbuf2 (>= 1.2.5)
-      pango (>= 1.2.5)
-    pango (1.2.5)
+    gtk2 (1.2.6)
+      atk (>= 1.2.6)
+      gdk_pixbuf2 (>= 1.2.6)
+      pango (>= 1.2.6)
+    pango (1.2.6)
       cairo (>= 1.10.0)
-      glib2 (>= 1.2.5)
+      glib2 (>= 1.2.6)
     pkg-config (1.1.4)
 
 PLATFORMS
