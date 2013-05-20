@@ -10,7 +10,7 @@ PATH
       pango (~> 1.2.5)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     atk (1.2.6)
       glib2 (>= 1.2.6)
