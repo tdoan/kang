@@ -13,16 +13,13 @@ module Kang
         tag =  @tags.fetch(tag_name)
       rescue KeyError
         c = @colors[i]
-        puts c.inspect
         color = Gdk::Color.new(*c)
-        puts color.to_s
         tag = Gtk::TextTag.new(tag_name)
         tag.foreground='black'
         tag.background_gdk=color
         @tags[tag_name] = tag
         @view.buffer.tag_table.add(tag)
       end
-      #@view.buffer.create_tag("colors",{ "foreground" => "green", "background" => "gray" })
       tag
     end
   end

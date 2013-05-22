@@ -48,9 +48,7 @@ class Colors
   def [](i)
     if @colors.size-1 < i
       diff  = i - @colors.size + 1
-      puts "growing #{diff}"
       (diff).times do
-        puts "."
         self.next
       end
     end
