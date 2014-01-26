@@ -47,26 +47,5 @@ module Kang
       #@view.update_tag
       @view.repaint
     end
-
-    private
-    def key_up
-      unless @data.regex_valid?
-        @view.remove_tag
-        @view.update_status("Invalid Regex")
-      else
-        count = @data.match_group_count ? @data.match_group_count : "no"
-        message = "Matched with #{@data.match_group_count} grouping"
-        message += "s" if @data.match_group_count and @data.match_group_count > 1
-        @view.update_status(message)
-        if @data.match?
-          @view.update_tag(@data.match_begin,@data.match_end)
-        else
-          @view.remove_tag
-          @view.update_status("no match")
-        end
-      end
-      @view.update_match_groups(@data.matches)
-      @view.update_spin_count
-    end
   end
 end
