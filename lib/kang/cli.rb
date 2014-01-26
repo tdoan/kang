@@ -2,7 +2,7 @@
 # cli.rb - Main executable for GUI interface
 #
 # ====================================================================
-# Copyright (c) 2013 Tony Doan <tdoan@tdoan.com>.  All rights reserved.
+# Copyright (c) 2014 Tony Doan <tdoan@tdoan.com>.  All rights reserved.
 #
 # This software is licensed as described in the file COPYING, which
 # you should have received as part of this distribution.  The terms
