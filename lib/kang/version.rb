@@ -13,5 +13,5 @@
 #
 
 module Kang
-  VERSION = "0.1.0alpha.3"
+  VERSION = "0.1.0"
 end

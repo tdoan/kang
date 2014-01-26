@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    kang (0.1.0alpha.3)
+    kang (0.1.0)
       atk (~> 1.2.5)
       cairo (~> 1.12.4)
       gdk_pixbuf2 (~> 1.2.5)
@@ -14,7 +14,7 @@ GEM
   specs:
     atk (1.2.6)
       glib2 (>= 1.2.6)
-    cairo (1.12.4)
+    cairo (1.12.8)
       pkg-config
     gdk_pixbuf2 (1.2.6)
       glib2 (>= 1.2.6)
@@ -27,7 +27,7 @@ GEM
     pango (1.2.6)
       cairo (>= 1.10.0)
       glib2 (>= 1.2.6)
-    pkg-config (1.1.4)
+    pkg-config (1.1.5)
 
 PLATFORMS
   ruby
