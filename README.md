@@ -6,11 +6,11 @@ KANG - The Ruby Regex Debugger
 DESCRIPTION
 -----------
 
-This is a cross-platform GUI application. To run it you'll need Ruby (1.8.7, 1.9.2, 1.9.3, and 2.0.0 have been tested) and the gtk2 gem (tested through 1.2.2). Ruby 2.0 requires gtk >= 1.2.2.
+This is a cross-platform GUI application. To run it you'll need Ruby (1.8.7, 1.9.2, 1.9.3, and 2.0.0 have been tested) and the gtk2 gem (tested through 1.2.2). Ruby 2.0 requires gtk >= 1.2.5.
 
 ### SYNOPSIS:
 
-*  gem install kang (see INSTALL below)
+*  `gem install kang` (see INSTALL below)
 *  kang
 
 ### REQUIREMENTS:
@@ -22,8 +22,8 @@ This is a cross-platform GUI application. To run it you'll need Ruby (1.8.7, 1.9
 
 ### INSTALL:
 
-First you need gtk2. If you are on Linux you probably already have it, if not use apt,rpm,yum etc.
-  More than likely you'll have the libraries but not the *dev* packages with the header files. Here are the *dev* packages that I had to add on Ubuntu 11/12:
+#### Linux:
+First you will need gtk2, which is more than likely already installed if you are running X Windows. Unfortunately chances are you'll have the libraries but not the *dev* packages with the header files. Here are the *dev* packages that I had to add on Ubuntu 11/12:
 
 * libglib2.0-dev
 * libatk1.0-dev
@@ -31,12 +31,25 @@ First you need gtk2. If you are on Linux you probably already have it, if not us
 * libpango1.0-dev
 * libgdk-pixbuf2.0-dev
 
-Then you can just run:
-gem install kang (this should install the gtk2 gem and it's dependencies)
+So use apt/rpm/etc. to install the dev packages. Then run:
+
+`gem install kang`
+
+This will install all the gem dependencies.
+
+#### Mac OS X:
+`brew install gtk+`
+
+`gem install kang`
+
+#### Windows:
+The Windows GTK gems include all the binary bits of GTK ready to go for Windows. Just run:
+
+`gem install kang`
 
 ### LICENSE:
 
-Copyright (c) 2013 Tony Doan <tdoan@tdoan.com>.  All rights reserved.
+Copyright (c) 2014 Tony Doan <tdoan@tdoan.com>.  All rights reserved.
 This software is licensed as described in the file COPYING, which
 you should have received as part of this distribution.  The terms
 are also available at http://github.com/tdoan/kang/tree/master/COPYING.
