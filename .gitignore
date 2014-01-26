@@ -2,3 +2,4 @@
 .bundle
 pkg/*
 README.html
+vendor
