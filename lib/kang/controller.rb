@@ -23,28 +23,27 @@ module Kang
     end
 
     def key_up_match(view,event,match_string)
-      #@view.update_status("")
       @data.match_string = match_string
-      #key_up
       @view.repaint
     end
 
     def key_up_reg(view,event,text)
-      #@view.update_status("")
       @data.regex_string = text
-      #key_up
       @view.repaint
     end
 
     def multiline_click(view,event)
       @data.multiline=view.active?
-      #@view.toggle_multiline(view.active?)
+      @view.repaint
+    end
+
+    def extended_click(view,event)
+      @data.extended=view.active?
       @view.repaint
     end
 
     def spin_change(value)
       @data.line_number = value
-      #@view.update_tag
       @view.repaint
     end
   end

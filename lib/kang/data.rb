@@ -34,7 +34,7 @@ module Kang
     def regex_string=(regex_string)
       @regex_string = regex_string
       begin
-        @re = Regexp.new(@regex_string)
+        @re = Regexp.new(@regex_string,extended)
         update_match
       rescue RegexpError
         @re = nil
@@ -50,8 +50,21 @@ module Kang
       update_match
     end
 
+    def extended=(extended)
+      if extended
+        @extended = Regexp::EXTENDED
+      else
+        @extended = false
+      end
+      update_regexp
+    end
+
     def multiline
       @multiline
+    end
+
+    def extended
+      @extended
     end
 
     def match
@@ -142,9 +155,9 @@ module Kang
       end
     end
 
-    def update_regexp(re_string)
+    def update_regexp
       begin
-        @re = Regexp.new(re_string)
+        @re = Regexp.new(@regex_string, extended)
       rescue RegexpError
         @re = nil
       end

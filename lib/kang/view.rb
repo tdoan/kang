@@ -75,6 +75,8 @@ module Kang
       vbox.pack_start(hpaned,true,true,0)
       @multiline = Gtk::CheckButton.new("multiline")
       vbox.pack_start(@multiline,false,false,0)
+      @extended = Gtk::CheckButton.new("extended")
+      vbox.pack_start(@extended,false,false,0)
       @spinbutton = Gtk::SpinButton.new(1, 1, 1)
       @spinbutton.sensitive=false
       vbox.pack_start(@spinbutton,false,false,0)
@@ -84,6 +86,7 @@ module Kang
       @regview.signal_connect("key-release-event") {|view,event| @controller.key_up_reg(view,event,view.buffer.text)}
       @matchview.signal_connect("key-release-event") {|view,event| @controller.key_up_match(view,event,view.buffer.text)}
       @multiline.signal_connect("clicked") {|view,event| @controller.multiline_click(view,event)}
+      @extended.signal_connect("clicked") {|view,event| @controller.extended_click(view,event)}
       @spinbutton.signal_connect("value-changed") {|button| @controller.spin_change(button.value.to_i)}
     end
 
