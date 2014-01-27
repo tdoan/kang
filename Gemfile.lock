@@ -1,32 +1,32 @@
 PATH
   remote: .
   specs:
-    kang (0.1.0)
-      atk (~> 1.2.5)
-      cairo (~> 1.12.4)
-      gdk_pixbuf2 (~> 1.2.5)
-      glib2 (~> 1.2.5)
-      gtk2 (~> 1.2.5)
-      pango (~> 1.2.5)
+    kang (0.1.1.pre)
+      atk (~> 2.1.0)
+      cairo (~> 1.12.6)
+      gdk_pixbuf2 (~> 2.1.0)
+      glib2 (~> 2.1.0)
+      gtk2 (~> 2.1.0)
+      pango (~> 2.1.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    atk (1.2.6)
-      glib2 (>= 1.2.6)
+    atk (2.1.0)
+      glib2 (= 2.1.0)
     cairo (1.12.8)
       pkg-config
-    gdk_pixbuf2 (1.2.6)
-      glib2 (>= 1.2.6)
-    glib2 (1.2.6)
+    gdk_pixbuf2 (2.1.0)
+      glib2 (= 2.1.0)
+    glib2 (2.1.0)
       pkg-config
-    gtk2 (1.2.6)
-      atk (>= 1.2.6)
-      gdk_pixbuf2 (>= 1.2.6)
-      pango (>= 1.2.6)
-    pango (1.2.6)
-      cairo (>= 1.10.0)
-      glib2 (>= 1.2.6)
+    gtk2 (2.1.0)
+      atk (= 2.1.0)
+      gdk_pixbuf2 (= 2.1.0)
+      pango (= 2.1.0)
+    pango (2.1.0)
+      cairo (>= 1.12.5)
+      glib2 (= 2.1.0)
     pkg-config (1.1.5)
 
 PLATFORMS
