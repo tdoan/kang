@@ -1,3 +1,17 @@
+#
+# color.rb - Generate randon color sets that are distinguishable
+#
+# ====================================================================
+# Copyright (c) 2014 Tony Doan <tdoan@tdoan.com>.  All rights reserved.
+#
+# This software is licensed as described in the file COPYING, which
+# you should have received as part of this distribution.  The terms
+# are also available at http://github.com/tdoan/kang/tree/master/COPYING.
+# If newer versions of this license are posted there, you may use a
+# newer version instead, at your option.
+# ====================================================================
+#
+
 class Colors
   def initialize(initial_size=nil, options={})
     valid_options = [:saturation,:value,:starting_hue,:range]
