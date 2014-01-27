@@ -62,7 +62,6 @@ module Kang
       treeview.selection.mode = Gtk::SELECTION_NONE
       treeview.set_size_request(200,-1)
       winright.add(treeview)
-      #winright.set_size_request(200,-1)
 
       vpaned = Gtk::VPaned.new
       vpaned.add1(wintop)
@@ -107,12 +106,8 @@ module Kang
     private
     def update_tag
       remove_tag
-      if @data.match_group_count
-        @data.match_group_count.times do |i|
-          paint_tag(i)
-        end
-      else
-        paint_tag
+      if @data.match_group_count > 0
+        @data.match_group_count.times { |i| paint_tag(i) }
       end
     end
 
@@ -131,9 +126,8 @@ module Kang
         remove_tag
         message = "Invalid Regex"
       else
-        count = @data.match_group_count ? @data.match_group_count : "no"
         message = "Matched with #{@data.match_group_count} grouping"
-        message += "s" if @data.match_group_count and @data.match_group_count > 1
+        message += "s" if @data.match_group_count > 1
         if @data.match?
           update_tag #(@data.match_begin,@data.match_end)
         else

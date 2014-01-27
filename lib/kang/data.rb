@@ -106,12 +106,12 @@ module Kang
       if @match
         @match.length
       else
-        nil
+        0
       end
     end
 
     def matches
-      if @match and (@match.length > 1)
+      if @match and (@match.length > 0)
         if @match.names and @match.names.size>0
           names = @match.names.unshift("0")
         else
@@ -132,7 +132,7 @@ module Kang
           @match_string.scan(/^.*$/) {|m| @line_matches << $~}
           @line_number = 1 if @line_number > self.num_lines
           line_match = @line_matches[@line_number]
-          @match = @re.match(@line_matches[@line_number][0])
+          @match = @re.match(line_match[0])
           @match = OffSetMatchData.new(line_match.begin(0), @match) if @match
         else
           @match = @re.match(@match_string)
