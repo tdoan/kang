@@ -13,7 +13,7 @@ spec = Gem::Specification.new do |spec|
   spec.executables = ['kang']
   spec.add_dependency("glib2", "~> 2.1.0")
   spec.add_dependency("atk", "~> 2.1.0")
-  spec.add_dependency("gtk2", "~> 2.1.0")
+  spec.add_dependency("gtk3", "~> 2.1.0")
   spec.add_dependency("pango", "~> 2.1.0")
   spec.add_dependency("cairo", "~> 1.12.6")
   spec.add_dependency("gdk_pixbuf2", "~> 2.1.0")

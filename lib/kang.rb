@@ -22,8 +22,8 @@ require "kang/colors"
 require "kang/tags"
 require "rubygems"
 begin
-  require 'gtk2'
+  require 'gtk3'
 rescue LoadError => ex
-  $stderr.puts("This is a GUI application that requires the gtk2 gem be installed, which in turn requires that GTK2 be installed.")
+  $stderr.puts("This is a GUI application that requires the gtk3 gem be installed, which in turn requires that GTK3 be installed.")
   exit(-1)
 end

@@ -19,20 +19,20 @@ module Kang
       match_text=data.match_string
       @controller = controller
       @data = data
-      @window = Gtk::Window.new(Gtk::Window::TOPLEVEL)
+      @window = Gtk::Window.new(Gtk::Window::Type::TOPLEVEL)
       @window.set_title  "Kang"
       @window.border_width = 10
       @window.set_size_request(600, 400)
       @window.signal_connect('delete_event') { Gtk.main_quit }
 
       wintop = Gtk::ScrolledWindow.new
-      wintop.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_ALWAYS)
+      wintop.set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::ALWAYS)
 
       winbottom = Gtk::ScrolledWindow.new
-      winbottom.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_ALWAYS)
+      winbottom.set_policy(Gtk::PolicyType::AUTOMATIC,Gtk::PolicyType::ALWAYS)
 
       winright = Gtk::ScrolledWindow.new
-      winright.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC)
+      winright.set_policy(Gtk::PolicyType::AUTOMATIC,Gtk::PolicyType::ALWAYS)
 
       @statusbar = Gtk::Statusbar.new
       @statusbar.push(0,"")
@@ -59,28 +59,28 @@ module Kang
       end
       treeview.append_column(column0)
       treeview.append_column(column1)
-      treeview.selection.mode = Gtk::SELECTION_NONE
+      treeview.selection.mode = Gtk::SelectionMode::NONE
       treeview.set_size_request(200,-1)
       winright.add(treeview)
 
-      vpaned = Gtk::VPaned.new
+      vpaned = Gtk::Paned.new(:vertical)
       vpaned.add1(wintop)
       vpaned.add2(winbottom)
       vpaned.set_size_request(400,400)
-      hpaned = Gtk::HPaned.new
-      hpaned.pack1(vpaned,true,false)
-      hpaned.pack2(winright,true,false)
+      hpaned = Gtk::Paned.new(:horizontal)
+      hpaned.pack1(vpaned, resize: true, shrink: false)
+      hpaned.pack2(winright, resize: true, shrink: false)
       hpaned.set_size_request(100,-1)
-      vbox = Gtk::VBox.new(false,0)
-      vbox.pack_start(hpaned,true,true,0)
+      vbox = Gtk::Box.new(:vertical,0)
+      vbox.pack_start(hpaned, expand: true, fill: true, padding: 0)
       @multiline = Gtk::CheckButton.new("multiline")
-      vbox.pack_start(@multiline,false,false,0)
+      vbox.pack_start(@multiline, expand: false, fill: false, padding: 0)
       @extended = Gtk::CheckButton.new("extended")
-      vbox.pack_start(@extended,false,false,0)
+      vbox.pack_start(@extended, expand: false, fill: false, padding: 0)
       @spinbutton = Gtk::SpinButton.new(1, 1, 1)
       @spinbutton.sensitive=false
-      vbox.pack_start(@spinbutton,false,false,0)
-      vbox.pack_start(@statusbar,false,false,0)
+      vbox.pack_start(@spinbutton, expand: false, fill: false, padding: 0)
+      vbox.pack_start(@statusbar, expand: false, fill: false, padding: 0)
       @window.add(vbox)
 
       @regview.signal_connect("key-release-event") {|view,event| @controller.key_up_reg(view,event,view.buffer.text)}
@@ -118,8 +118,8 @@ module Kang
       if @data.regex_valid? and @data.match? and @data.match_begin(group)
         tag_begin = @data.match_begin(group)
         tag_end   = @data.match_end(group)
-        b = @matchview.buffer.get_iter_at_offset(tag_begin)
-        e = @matchview.buffer.get_iter_at_offset(tag_end)
+        b = @matchview.buffer.get_iter_at(offset: tag_begin)
+        e = @matchview.buffer.get_iter_at(offset: tag_end)
         @matchview.buffer.apply_tag(@tags[group],b,e)
       end
     end
@@ -151,8 +151,8 @@ module Kang
 
     def remove_tag
       buffer = @matchview.buffer
-      bstart = buffer.get_iter_at_offset(0)
-      bend = buffer.get_iter_at_offset(buffer.text.size)
+      bstart = buffer.get_iter_at(offset: 0)
+      bend = buffer.get_iter_at(offset: buffer.text.size)
       @matchview.buffer.remove_all_tags(bstart,bend)
     end
 
