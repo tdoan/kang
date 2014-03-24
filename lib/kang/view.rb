@@ -33,6 +33,7 @@ module Kang
 
       winright = Gtk::ScrolledWindow.new
       winright.set_policy(Gtk::PolicyType::AUTOMATIC,Gtk::PolicyType::ALWAYS)
+      winright.set_size_request(250,-1)
 
       @statusbar = Gtk::Statusbar.new
       @statusbar.push(0,"")
@@ -45,9 +46,7 @@ module Kang
       @tags = Tags.new(@matchview)
 
       wintop.add(@regview)
-      wintop.set_size_request(400,100)
       winbottom.add(@matchview)
-      winbottom.set_size_request(400,200)
 
       @list_store = Gtk::ListStore.new(String, String)
       treeview = Gtk::TreeView.new(@list_store)
@@ -60,17 +59,15 @@ module Kang
       treeview.append_column(column0)
       treeview.append_column(column1)
       treeview.selection.mode = Gtk::SelectionMode::NONE
-      treeview.set_size_request(200,-1)
       winright.add(treeview)
 
       vpaned = Gtk::Paned.new(:vertical)
       vpaned.add1(wintop)
       vpaned.add2(winbottom)
-      vpaned.set_size_request(400,400)
+      vpaned.set_size_request(250,-1)
       hpaned = Gtk::Paned.new(:horizontal)
       hpaned.pack1(vpaned, resize: true, shrink: false)
-      hpaned.pack2(winright, resize: true, shrink: false)
-      hpaned.set_size_request(100,-1)
+      hpaned.pack2(winright, resize: false, shrink: false)
       vbox = Gtk::Box.new(:vertical,0)
       vbox.pack_start(hpaned, expand: true, fill: true, padding: 0)
       @multiline = Gtk::CheckButton.new("multiline")
