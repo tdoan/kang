@@ -41,6 +41,8 @@ This will install all the gem dependencies.
 `brew install gtk+`
 
 `gem install kang`
+If you run into errors involving libffi and libffi.pc not being found, add this in front of the gem install command:
+`PKG_CONFIG_PATH=/usr/local/Cellar/libffi/3.0.13/lib/pkgconfig`
 
 #### Windows:
 The Windows GTK gems include all the binary bits of GTK ready to go for Windows. Just run:
